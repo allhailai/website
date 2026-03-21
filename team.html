@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team — All Hail AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold:        #C9A84C;
+  --gold-light:  #DEC777;
+  --gold-dim:    #8B6E2E;
+  --black:       #0A0A0A;
+  --deep:        #0F0F0F;
+  --surface:     #141414;
+  --surface2:    #1C1C1C;
+  --border:      rgba(201,168,76,0.18);
+  --border-dim:  rgba(255,255,255,0.07);
+  --text:        #F0EDE6;
+  --muted:       #8A8780;
+  --serif:       'Cormorant Garamond', Georgia, serif;
+  --sans:        'DM Sans', system-ui, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  background: var(--black);
+  color: var(--text);
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+
+.gold { color: var(--gold); }
+.container { max-width: 1140px; margin: 0 auto; padding: 0 2rem; }
+.label {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1.4rem 0;
+  transition: background 0.4s, border-color 0.4s;
+  background: rgba(10,10,10,0.92);
+  border-bottom: 0.5px solid var(--border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.nav-logo img { width: 32px; height: auto; filter: brightness(1.1); }
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+  font-size: 0.82rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+}
+.nav-links a { color: var(--muted); transition: color 0.2s; }
+.nav-links a:hover, .nav-links a.active { color: var(--text); }
+.nav-cta {
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  border: 0.5px solid var(--gold-dim);
+  color: var(--gold);
+  padding: 0.55rem 1.4rem;
+  border-radius: 2px;
+  transition: background 0.2s, color 0.2s;
+}
+.nav-cta:hover { background: var(--gold); color: var(--black); }
+
+/* PAGE HERO */
+.page-hero {
+  padding: 12rem 0 6rem;
+  border-bottom: 0.5px solid var(--border-dim);
+  position: relative;
+  overflow: hidden;
+}
+.page-hero-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(201,168,76,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.page-hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(201,168,76,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,168,76,0.025) 1px, transparent 1px);
+  background-size: 80px 80px;
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse 90% 90% at 50% 0%, black 20%, transparent 75%);
+}
+.page-hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(3rem, 7vw, 6rem);
+  font-weight: 500;
+  line-height: 1.08;
+  margin: 1rem 0 1.5rem;
+}
+.page-hero h1 em { font-style: italic; color: var(--gold-light); }
+.page-hero p {
+  color: var(--muted);
+  font-size: 1.05rem;
+  max-width: 600px;
+  line-height: 1.8;
+}
+
+/* SECTION DIVIDER */
+.section-label-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 3.5rem;
+}
+.section-label-row::after {
+  content: '';
+  flex: 1;
+  height: 0.5px;
+  background: var(--border-dim);
+}
+
+/* AI EMPLOYEES SECTION */
+#ai-team {
+  padding: 6rem 0;
+  background: var(--deep);
+  border-bottom: 0.5px solid var(--border-dim);
+}
+
+.ai-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--border-dim);
+  border: 0.5px solid var(--border-dim);
+  margin-bottom: 1px;
+}
+.ai-grid-bottom {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border-dim);
+  border: 0.5px solid var(--border-dim);
+  border-top: none;
+}
+.ai-card {
+  background: var(--surface);
+  padding: 2.8rem 2.4rem;
+  position: relative;
+  transition: background 0.3s;
+  overflow: hidden;
+}
+.ai-card:hover { background: var(--surface2); }
+.ai-card.flagship {
+  border-top: 2px solid var(--gold);
+}
+
+/* AI Avatar — geometric/machine aesthetic */
+.ai-avatar {
+  width: 72px;
+  height: 72px;
+  margin-bottom: 1.8rem;
+  position: relative;
+}
+
+.ai-card h3 {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+}
+.ai-card .ai-role {
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.2rem;
+  display: block;
+}
+.ai-card p {
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.75;
+  margin-bottom: 1.2rem;
+}
+.ai-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 1rem;
+}
+.ai-tag {
+  font-size: 0.67rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.65rem;
+  border: 0.5px solid var(--border);
+  color: var(--muted);
+  border-radius: 2px;
+}
+.ai-tag.highlight {
+  border-color: rgba(201,168,76,0.35);
+  color: var(--gold);
+  background: rgba(201,168,76,0.05);
+}
+
+/* HUMAN TEAM SECTION */
+#human-team {
+  padding: 6rem 0;
+}
+.human-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border-dim);
+  border: 0.5px solid var(--border-dim);
+}
+.human-card {
+  background: var(--surface);
+  padding: 2.4rem 2rem 2rem;
+  transition: background 0.25s;
+  position: relative;
+}
+.human-card:hover { background: var(--surface2); }
+
+/* Humanoid Avatar SVG */
+.human-avatar {
+  width: 64px;
+  height: 80px;
+  margin-bottom: 1.4rem;
+}
+.human-card h3 {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+}
+.human-card .human-num {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 1rem;
+  display: block;
+}
+.skill-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.skill-list li {
+  font-size: 0.77rem;
+  color: var(--muted);
+  line-height: 1.4;
+  padding-left: 0.8rem;
+  position: relative;
+}
+.skill-list li::before {
+  content: '·';
+  position: absolute;
+  left: 0;
+  color: var(--gold-dim);
+}
+
+/* FOOTER */
+footer {
+  padding: 3rem 0;
+  border-top: 0.5px solid var(--border-dim);
+}
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-weight: 600;
+}
+.footer-logo img { width: 36px; border-radius: 3px; }
+.footer-copy { font-size: 0.78rem; color: var(--muted); }
+.footer-links { display: flex; gap: 1.8rem; font-size: 0.78rem; color: var(--muted); }
+.footer-links a:hover { color: var(--text); }
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.08s; }
+.reveal-delay-2 { transition-delay: 0.16s; }
+.reveal-delay-3 { transition-delay: 0.24s; }
+.reveal-delay-4 { transition-delay: 0.32s; }
+.reveal-delay-5 { transition-delay: 0.40s; }
+.reveal-delay-6 { transition-delay: 0.48s; }
+.reveal-delay-7 { transition-delay: 0.56s; }
+.reveal-delay-8 { transition-delay: 0.64s; }
+
+.page-hero-anim {
+  opacity: 0;
+  animation: fadeUp 0.9s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+.page-hero-anim-1 { animation-delay: 0.1s; }
+.page-hero-anim-2 { animation-delay: 0.25s; }
+.page-hero-anim-3 { animation-delay: 0.4s; }
+
+@media (max-width: 1000px) {
+  .human-grid { grid-template-columns: repeat(2, 1fr); }
+  .ai-grid { grid-template-columns: 1fr; }
+  .ai-grid-bottom { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 700px) {
+  .human-grid { grid-template-columns: 1fr 1fr; }
+  .ai-grid-bottom { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  .footer-inner { flex-direction: column; gap: 1.5rem; text-align: center; }
+  .footer-links { justify-content: center; }
+}
+@media (max-width: 500px) {
+  .human-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCEtLSBHZW5lcmF0ZWQgYnkgUGl4ZWxtYXRvciBQcm8gMy43LjEgLS0+Cjxzdmcgd2lkdGg9Ijg0OCIgaGVpZ2h0PSI5OTIiIHZpZXdCb3g9IjAgMCA4NDggOTkyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogICAgPGcgaWQ9Ikdyb3VwIj4KICAgICAgICA8cGF0aCBpZD0iUGF0aCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSJub25lIiBkPSJNIDYzMC45ODYwMjMgNDcxLjkyMTAyMSBDIDYxOS4zOTMwMDUgNDg4LjI1MjAxNCA2MDYuMTAxOTkgNTAyLjc5OTAxMSA1OTQuNDQyOTkzIDUxOC42MTk5OTUgQyA1NzguNDkyOTgxIDU0MC4yNjU5OTEgNTY1LjkzNzAxMiA1NjMuNjE3OTgxIDU1OS41NDQ5ODMgNTg5LjkwODAyIEMgNTU2LjYzMDk4MSA2MDEuODkwOTkxIDU1Ni4xNDAwMTUgNjE0LjI4MTAwNiA1NTQuMzE4OTcgNjI2LjQ1NTAxNyBDIDU1MS45NzgwMjcgNjQyLjEwNDk4IDU0NS4zNTEwMTMgNjU1LjMzNjk3NSA1MzIuMTkwOTc5IDY2NC42NDA5OTEgQyA1MjkuMDkzOTk0IDY2Ni44MzA5OTQgNTI3LjkzNDAyMSA2NjkuMjExOTc1IDUyOC4wMzE5ODIgNjcyLjkyNDk4OCBDIDUyOC4yNjUwMTUgNjgxLjc1MjAxNCA1MjguMTcxOTk3IDY4Ny40NzQ5NzYgNTI4LjExMiA2OTYuMzA3MDA3IEMgNTI4LjAzOTk3OCA3MDYuOTY2OTggNTIyLjg3NSA3MDUuNzgwMDI5IDUxMi4zMTcwMTcgNzA2Ljc0Nzk4NiBDIDQ3My4wMzM5OTcgNzEwLjM0OTk3NiA0MzMuOTU5OTkxIDcxMy43MjgwMjcgMzk0LjY0ODk4NyA3MTcuMTA2MDE4IEMgMzc2Ljc0NjAwMiA3MTguNjQzOTgyIDM1OC45MzMwMTQgNzIwLjA5MTk4IDM0MS4wNzUwMTIgNzIyLjE1Njk4MiBDIDMzNy4xMDk5ODUgNzIyLjYxNjAyOCAzMzMuMTA4MDAyIDcyMi4wOTMwMTggMzI5LjE3NDAxMSA3MjAuODU2MDE4IEMgMzIyLjg5MTk5OCA3MTguODgwMDA1IDMxOC44OTE5OTggNzExLjYwNzk3MSAzMTguODcyMDA5IDcwNC43MzEwMTggQyAzMTguODI1MDEyIDY4OC4zOTg5ODcgMzE4Ljg2MDk5MiA2ODguNDgyOTcxIDMxOC44NjA5OTIgNjcyLjE1MDAyNCBDIDMxOC44NjIgNjY5LjgyMDk4NCAzMTkuMDc5OTg3IDY2Ny40ODYwMjMgMzE2LjYyMzk5MyA2NjUuOTYwOTk5IEMgMjk5Ljc4OTAwMSA2NTUuNTA3OTk2IDI5My4zNTAwMDYgNjM5LjM1MTk5IDI5MS43MTM5ODkgNjIwLjUzMDAyOSBDIDI4OC4yMDk5OTEgNTgwLjIxOTk3MSAyNzMuOTI0OTg4IDU0NC40Mzc5ODggMjQ4LjA1MDk5NSA1MTMuMDQzMDMgQyAyMzMuODgwOTk3IDQ5NS44NDg5OTkgMjE5Ljk1MzAwMyA0NzguMzQ5OTc2IDIwNy44Mjg5OTUgNDU5LjU5MDAyNyBDIDE5NC44NDUwMDEgNDM5LjQ5OTAyMyAxODQuNzc2MDAxIDQxNy45ODYwMjMgMTc3LjUzMzAwNSAzOTUuMTQ2OTczIEMgMTY4LjA4OTAwNSAzNjUuMzY5OTk1IDE2My4xODQ5OTggMzM0Ljg2NzAwNCAxNjQuMDgwMDAyIDMwMy42NzE5OTcgQyAxNjUuMDU3MDA3IDI2OS42MjU5NzcgMTcyLjA0ODAwNCAyMzYuNzQzMDQyIDE4NC42NjkwMDYgMjA0Ljk2NzA0MSBDIDE5NS43OTQwMDYgMTc2Ljk1NzAzMSAyMTEuMDQ0MDA2IDE1MS41NTkwMjEgMjMwLjMwNzAwNyAxMjguNTI4MDE1IEMgMjQ3LjA5Njk4NSAxMDguNDU1MDE3IDI2Ni43MjE5ODUgOTEuNTU3MDA3IDI4OC43OTAwMDkgNzcuNDcxMDA4IEMgMzIwLjMzNzAwNiA1Ny4zMzU5OTkgMzU0LjcxNjAwMyA0NC42NDU5OTYgMzkxLjc4Njk4NyA0MC4zNDQ5NzEgQyA0NDAuOTk3MDA5IDM0LjYzNDAzMyA0ODguMzgyOTk2IDQxLjMwNDk5MyA1MzMuMTY2OTkyIDYzLjc1Mjk5MSBDIDU3NC45MDM5OTIgODQuNjc0MDExIDYwOC44NjcwMDQgMTE0LjE0NTk5NiA2MzQuODc0MDIzIDE1Mi45Njk5NzEgQyA2NTIuMDk4OTk5IDE3OC42ODQwMjEgNjY0LjY5Nzk5OCAyMDYuNDY4OTk0IDY3Mi44OTMwMDUgMjM2LjE4Mzk2IEMgNjgyLjY1MDAyNCAyNzEuNTYyMDEyIDY4NS43NjcwMjkgMzA3LjY0NTk5NiA2ODAuOTU1MDE3IDM0NC4wOTIwNDEgQyA2NzcuNTI2MDAxIDM3MC4wNjYwNCA2NzAuOTY2OTggMzk1LjI4NjAxMSA2NjAuNjM3MDI0IDQxOS41NDE5OTIgQyA2NTIuNzQ3OTg2IDQzOC4wNjYwNCA2NDIuMzY5MDE5IDQ1NS4wMzY5ODcgNjMwLjk4NjAyMyA0NzEuOTIxMDIxIE0gMzMxLjc5Njk5NyA2NDEuNzg5OTc4IEMgMzM4LjE5NCA2NDUuODc5MDI4IDM0NS4zOTQ5ODkgNjQ1LjYzMDk4MSAzNTIuNTcyOTk4IDY0NS44NDMwMTggQyAzNTYuNDQ5MDA1IDY0NS45NTY5NyAzNTcuNzY1OTkxIDY0NC43MTM5ODkgMzU3Ljc3ODAxNSA2NDAuNzA4OTg0IEMgMzU3LjgxNTAwMiA2MjcuODcyMDA5IDM1Ny45MzYwMDUgNjE1LjAxNTk5MSAzNTYuNjE1OTk3IDYwMi4yNTU5ODEgQyAzNTQuNjc5OTkzIDU4My41NDYwMjEgMzQ5Ljg2NDk5IDU2NS42MTkwMTkgMzQwLjE0NDAxMiA1NDkuMjY4OTgyIEMgMzMyLjc5ODAwNCA1MzYuOTEzMDI1IDMyNC41ODgwMTMgNTI1LjE1OTk3MyAzMTQuNjIyOTg2IDUxNC43OTE5OTIgQyAzMDEuODIxMDE0IDUwMS40NzMwMjIgMjk2Ljk2ODk5NCA0ODQuOTk1OTcyIDI5NC41NzAwMDcgNDY3LjM0Mzk5NCBDIDI5NC4wNzUwMTIgNDYzLjcwMDk4OSAyOTUuMjIyOTkyIDQ2Mi41OTQ5NzEgMjk4Ljc1OTAwMyA0NjIuNjUwMDI0IEMgMzA4Ljc1NjAxMiA0NjIuODA3MDA3IDMxOC43NTY5ODkgNDYyLjcyOTk4IDMyOC43NTY5ODkgNDYyLjczNDAwOSBDIDM0OC45MjMwMDQgNDYyLjc0MTAyOCAzNjkuMDg4OTg5IDQ2Mi43NDcwMDkgMzg5LjI1NTAwNSA0NjIuNzM3IEMgMzkyLjAxNjk5OCA0NjIuNzM2MDIzIDM5NC43NDMwMTEgNDYyLjUzMTk4MiAzOTQuNzM1OTkyIDQ2Ni41OTY5ODUgQyAzOTQuNzIyOTkyIDQ3My45MTk5ODMgMzk0Ljk1MDAxMiA0ODEuMjQyOTgxIDM5NC45MDc5OSA0ODguNTY1MDAyIEMgMzk0Ljg2NDk5IDQ5NS45MTY5OTIgMzk0LjYyMTAwMiA0OTYuMDcwOTg0IDM4Ny4yMzgwMDcgNDk2LjA3MjAyMSBDIDM3MC42MzAwMDUgNDk2LjA3NTAxMiAzNTQuMDIyMDAzIDQ5Ni4wNzI5OTggMzM3LjM2NDk5IDQ5Ni4wNzI5OTggQyAzMzcuNDQxOTg2IDQ5Ni41OTgwMjIgMzM3LjM4Njk5MyA0OTYuOTgxOTk1IDMzNy41NTA5OTUgNDk3LjIwMDk4OSBDIDMzOC4xNDcwMDMgNDk4IDMzOC43NzYwMDEgNDk4Ljc4Mzk5NyAzMzkuNDY2MDAzIDQ5OS41MDI5OTEgQyAzNTcuODk0MDEyIDUxOC42OTU5ODQgMzcxLjA1NDk5MyA1NDEuMDIwMDIgMzc5LjA4NTk5OSA1NjYuMzYxMDIzIEMgMzg1LjYwMTk5IDU4Ni45MjE5OTcgMzg2LjM4OTAwOCA2MDguMjIzOTk5IDM4Ny4yMDcwMDEgNjI5LjUzNjAxMSBDIDM4Ny40MDc5OSA2MzQuNzYzOTc3IDM4NC45MDM5OTIgNjQxLjU0MzAzIDM4OC43MzMwMDIgNjQ0LjgyNzAyNiBDIDM5Mi40MDIwMDggNjQ3Ljk3NDk3NiAzOTkuMDEwMDEgNjQ1LjM4NzAyNCA0MDQuMjkxOTkyIDY0NS44NTYwMTggQyA0MDguODU5OTg1IDY0Ni4yNjA5ODYgNDA5Ljg2OTk5NSA2NDQuMTk1MDA3IDQwOS44NjQ5OSA2NDAuMDA3OTk2IEMgNDA5Ljc5NDAwNiA1ODAuNTEwMDEgNDA5LjgxNjk4NiA1MjEuMDEzIDQwOS45MzM5OSA0NjEuNTE1MDE1IEMgNDA5Ljk1NDAxIDQ1MS4wMDI5OTEgNDA3LjYwMjk5NyA0NDEuMDYxMDM1IDQwMy45MjcwMDIgNDMxLjM0MTAwMyBDIDM5OS4xNDE5OTggNDE4LjY5MDAwMiAzOTIuMTQwMDE1IDQwNy4xMDgwMzIgMzg2LjI1MTAwNyAzOTQuOTg5MDE0IEMgMzg0LjkzODk5NSAzOTIuMjg5MDAxIDM4NC45ODk5OSAzOTAuMTIyMDA5IDM4Ni40MTU5ODUgMzg3LjUxNTk5MSBDIDM5Ni4zMjUwMTIgMzY5LjM5ODk4NyA0MDYuMTIyOTg2IDM1MS4yMjEwMDggNDE1Ljk0Mjk5MyAzMzMuMDU0OTkzIEMgNDE4LjI4Mzk5NyAzMjguNzI2MDEzIDQyMC41NzUwMTIgMzI0LjM2OTk5NSA0MjIuNzUyMDE0IDMyMC4yODI5NTkgQyA0MjQuODA4MDE0IDMyMC40MjcwMDIgNDI1LjM3MjAwOSAzMjEuNTI2OTc4IDQyNS45MTkwMDYgMzIyLjUyMzk4NyBDIDQyOS4zNTkwMDkgMzI4LjgwMjAwMiA0MzIuNzQzMDExIDMzNS4xMDkwMDkgNDM2LjE2NTAwOSAzNDEuMzk1OTk2IEMgNDQ0LjUyNjAwMSAzNTYuNzU2OTU4IDQ1Mi44NTQwMDQgMzcyLjEzNTk4NiA0NjEuMzA0OTkzIDM4Ny40NDcwMjEgQyA0NjIuODQxMDAzIDM5MC4yMjkwMDQgNDYyLjg0ODk5OSAzOTIuNjM4IDQ2MS4zNTE5OSAzOTUuNDA3OTU5IEMgNDU3LjU1MzAwOSA0MDIuNDQxMDQgNDU0LjAzMTAwNiA0MDkuNjI0MDIzIDQ1MC4yMjY5OSA0MTYuNjUzMDE1IEMgNDQyLjQxNzk5OSA0MzEuMDc5MDQxIDQzNy42OTY5OTEgNDQ2LjEwNjk5NSA0MzcuODgwMDA1IDQ2Mi44NTE5OSBDIDQzOC4zMTM5OTUgNTAyLjUxMyA0MzguMDQ2OTk3IDU0Mi4xODEwMyA0MzguMDY1MDAyIDU4MS44NDYwMDggQyA0MzguMDcyOTk4IDYwMS4zNDQ5NzEgNDM4LjE2MTAxMSA2MjAuODQ0OTcxIDQzOC4wMzEwMDYgNjQwLjM0MzAxOCBDIDQzOC4wMDM5OTggNjQ0LjM0MDAyNyA0MzkuMTUyMDA4IDY0Ni4yMzI5NzEgNDQzLjQxNTAwOSA2NDUuOTA1MDI5IEMgNDQ2Ljg5NDk4OSA2NDUuNjM4IDQ1MC40Mjk5OTMgNjQ1LjYwMzAyNyA0NTMuOTA0OTk5IDY0NS44OTM5ODIgQyA0NTguNDUxOTk2IDY0Ni4yNzUwMjQgNDU5LjkwODk5NyA2NDQuNjA0MDA0IDQ1OS45NDEwMSA2MzkuOTY4OTk0IEMgNDYwLjAzNTAwNCA2MjUuOTc5MDA0IDQ1OS43MDkwMTUgNjExLjg5MDAxNSA0NjEuMjMzMDAyIDU5OC4wMjM5ODcgQyA0NjUuMzg5MDA4IDU2MC4yMjMwMjIgNDgwLjg1Mjk5NyA1MjcuNDI2MDI1IDUwNy4xNTgwMiA0OTkuODMzMDA4IEMgNTA4LjI0NDk5NSA0OTguNjkzOTcgNTA5Ljc4ODAyNSA0OTcuNzIxMDA4IDUwOS41NzUwMTIgNDk1Ljc0NDk5NSBDIDUwNy45ODcgNDk0Ljc0NDAxOSA1MDYuMjg4MDI1IDQ5NS4yMTMwMTMgNTA0LjY3Nzk3OSA0OTUuMjEwOTk5IEMgNDg5LjM0NTAwMSA0OTUuMTgyOTgzIDQ3NC4wMTAwMSA0OTUuMDU3OTgzIDQ1OC42ODEgNDk1LjMwMTAyNSBDIDQ1My45OTg5OTMgNDk1LjM3NSA0NTIuNDk3MDA5IDQ5My42Njk5ODMgNDUyLjY2NTk4NSA0ODkuMTc5OTkzIEMgNDUyLjkxNjk5MiA0ODIuNTIzMDEgNDUyLjcxMDk5OSA0NzUuODQ5OTc2IDQ1Mi43MTYwMDMgNDY5LjE4NDAyMSBDIDQ1Mi43MjE5ODUgNDYyLjg5MDAxNSA0NTIuODU1OTg4IDQ2Mi43MzkwMTQgNDU5LjE0OTk5NCA0NjIuNzM3IEMgNDg2LjY0ODk4NyA0NjIuNzMxMDE4IDUxNC4xNDgwMSA0NjIuNzI0OTc2IDU0MS42NDY5NzMgNDYyLjc1NDAyOCBDIDU1NS42NjE5ODcgNDYyLjc2ODAwNSA1NTMuMzQ2OTg1IDQ2MS4zNjc5ODEgNTUxLjI5NDAwNiA0NzQuMjkzMDMgQyA1NDguNzY4OTgyIDQ5MC4xODU5NzQgNTQyLjc2ODk4MiA1MDQuMjQ0OTk1IDUzMS41NDkwMTEgNTE2LjA0NDk4MyBDIDUyNi40MDEwMDEgNTIxLjQ1ODAwOCA1MjEuODA0OTkzIDUyNy40MTMwMjUgNTE3LjEzOCA1MzMuMjY1MDE1IEMgNDkxLjU1ODAxNCA1NjUuMzQxMDAzIDQ4Ny43NzgwMTUgNjAzLjAxODAwNSA0ODkuMjk5OTg4IDY0Mi4wNDYwMjEgQyA0ODkuMzk0MDEyIDY0NC40NzEwMDggNDkwLjQ3Mzk5OSA2NDUuNzUwOTc3IDQ5Mi45NzEwMDggNjQ1Ljc1MDk3NyBDIDUxNS44ODggNjQ1Ljc1IDUyNS4xODQ5OTggNjM4LjA0NjAyMSA1MjYuNjU2MDA2IDYxNy40MzQwMjEgQyA1MjguMDQ5OTg4IDU5Ny44ODg5NzcgNTMxLjcxMTk3NSA1NzguNzgzMDIgNTM4LjUzMzk5NyA1NjAuNDI3OTc5IEMgNTQ5LjA0NDk4MyA1MzIuMTUxMDAxIDU2NS42MDMwMjcgNTA3LjQxMTk4NyA1ODQuNjA2OTk1IDQ4NC4yNDQwMTkgQyA2MDcuMDEyMDI0IDQ1Ni45MzEwMyA2MjYuNTg4OTg5IDQyOC4wMDIwMTQgNjM5LjA2NTAwMiAzOTQuNjA5MDA5IEMgNjQ4LjA3ODAwMyAzNzAuNDgxOTk1IDY1Mi43NzA5OTYgMzQ1LjYwNDk4IDY1My42MzI5OTYgMzE5Ljk4OTAxNCBDIDY1NC40NDc5OTggMjk1LjczODAzNyA2NTIuMTQwOTkxIDI3MS43NDIwMDQgNjQ2LjA1NzAwNyAyNDguMTkzOTcgQyA2MzguNzg5MDAxIDIyMC4wNTk5OTggNjI3LjA2NDAyNiAxOTMuOTQ1MDA3IDYxMS4wMzgwMjUgMTY5LjY1Njk4MiBDIDU5My4xMzcwMjQgMTQyLjUyNTAyNCA1NzAuMzY0MDE0IDEyMC4yODEwMDYgNTQzLjIzMjk3MSAxMDIuNzc2MDAxIEMgNTA0LjIyOTAwNCA3Ny42MTA5NjIgNDYxLjMyNDAwNSA2Ni4wMzE5ODIgNDE0Ljc0Mzk4OCA2OC4wMjg5OTIgQyAzOTAuMDU4OTkgNjkuMDg3MDM2IDM2Ni4yNDMwMTEgNzMuNDg0MDA5IDM0My4yMzU5OTIgODIuNjE5OTk1IEMgMzEwLjY0OTk5NCA5NS41NjEwMzUgMjgyLjYzMTk4OSAxMTQuODgwMDA1IDI1OC44MjY5OTYgMTQwLjY1ODAyIEMgMjM4LjIwNTAwMiAxNjIuOTkwOTY3IDIyMi42MDQ5OTYgMTg4LjM0ODAyMiAyMTEuMzczMDAxIDIxNi40MzM5NiBDIDE5Ni4yMjU5OTggMjU0LjMwODk2IDE4OS44ODA5OTcgMjkzLjU1MTAyNSAxOTQuMTEwOTkyIDMzNC4yOTkwMTEgQyAxOTcuNTkxMDAzIDM2Ny44MjM5NzUgMjA3LjEwMDk5OCAzOTkuNDYwOTk5IDIyMy41MTE5OTMgNDI4Ljk5NDk5NSBDIDIzNi43NzQ5OTQgNDUyLjg2NDAxNCAyNTMuNzgxMDA2IDQ3NC4wMTM5NzcgMjcwLjg2NzAwNCA0OTUuMTMwOTgxIEMgMjg5Ljk1MDAxMiA1MTguNzE4MDE4IDMwNC4xNDA5OTEgNTQ0Ljg2OTk5NSAzMTIuNDY2MDAzIDU3NC4xNjQ5NzggQyAzMTYuNjc4OTg2IDU4OC45ODcgMzE3Ljc5Mjk5OSA2MDQuMjkxOTkyIDMyMC4zNDYwMDggNjE5LjM3MjAwOSBDIDMyMS43NjUwMTUgNjI3Ljc0Nzk4NiAzMjIuODM3MDA2IDYzNi4zODIwMTkgMzMxLjc5Njk5NyA2NDEuNzg5OTc4IE0gNDM3Ljc0MzAxMSAzODguNjI1OTc3IEMgNDMzLjMwMzk4NiAzNzkuOTY3MDQxIDQyOC44NjQwMTQgMzcxLjMwODk2IDQyMy44MjAwMDcgMzYxLjQ2OTk3MSBDIDQyMC4wMzY5ODcgMzY4LjcxOTk3MSA0MTcuMzE5IDM3NC45NTcwMzEgNDEzLjY5NTAwNyAzODAuNjE0MDE0IEMgNDA5LjM3MTAwMiAzODcuMzU5OTg1IDQwNy44Mjk5ODcgMzkzLjY1Mzk5MiA0MTMuMjQ4OTkzIDQwMC40NjIwMzYgQyA0MTQuMjQ3OTg2IDQwMS43MTcwNDEgNDE0LjU0MDk4NSA0MDMuNTE1MDE1IDQxNS4yNzIwMDMgNDA1LjAwNjk1OCBDIDQxNy45MjAwMTMgNDEwLjQxMTAxMSA0MjAuNjE1OTk3IDQxNS43OTEwMTYgNDIzLjkxNzk5OSA0MjIuNDM2MDM1IEMgNDI5LjA4ODk4OSA0MTEuNTI2OTc4IDQzMy41NjI5ODggNDAyLjA3ODk3OSA0MzguMDQ2OTk3IDM5Mi42MzU5ODYgQyA0MzguNTgzMDA4IDM5MS41MDY5NTggNDM4LjYzOCAzOTAuNDAxOTc4IDQzNy43NDMwMTEgMzg4LjYyNTk3NyBaIi8+PHBhdGggaWQ9InBhdGgxIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9Im5vbmUiIGQ9Ik0gMzIwLjI2NTAxNSA3NDIuNTczOTc1IEMgMzIyLjQ4NDk4NSA3MzYuNzU4OTcyIDMyNi42NTg5OTcgNzM0LjI5OTk4OCAzMzIuMjYwOTg2IDczMy42NzQ5ODggQyAzNTUuNDE3OTk5IDczMS4wOTE5OCAzNzguNTcwMDA3IDcyOC40NjgwMTggNDAxLjcyMTk4NSA3MjUuODMzOTg0IEMgNDE3LjU5ODk5OSA3MjQuMDI4OTkyIDQzMy40NjcwMSA3MjIuMTMwMDA1IDQ0OS4zNDg5OTkgNzIwLjM2Nzk4MSBDIDQ2OS44NTU5ODggNzE4LjA5MTk4IDQ5MC4zNTkwMDkgNzE1Ljc2ODk4MiA1MTAuODkyMDI5IDcxMy43NSBDIDUyMC44MTA5NzQgNzEyLjc3NTAyNCA1MjcuNTc1OTg5IDcxOC45MzcwMTIgNTI4LjA1NDAxNiA3MjguODk4MDEgQyA1MjguMzAyMDAyIDczNC4wNTQwMTYgNTI4LjE5NzAyMSA3MzkuMjI5MDA0IDUyOC4xNzkwMTYgNzQ0LjM5NTAyIEMgNTI4LjEzNzAyNCA3NTYuMzMwOTk0IDUyMi4wODg5ODkgNzYyLjcxMzk4OSA1MTAuMDk2OTg1IDc2Mi44NDYwMDggQyA0OTAuNjEyIDc2My4wNTkwMjEgNDcxLjEyMjk4NiA3NjIuOTg0MDA5IDQ1MS42MzU5ODYgNzYyLjk4OTk5IEMgNDE0LjgwNiA3NjMuMDAwOTc3IDM3Ny45NzYwMTMgNzYyLjk5MTAyOCAzNDEuMTQ1OTk2IDc2Mi45NjAwMjIgQyAzMzguMzE5IDc2Mi45NTgwMDggMzM1LjQ1MzAwMyA3NjIuOTg0MDA5IDMzMi42NzE5OTcgNzYyLjU1NzAwNyBDIDMyMi4zNDc5OTIgNzYwLjk3MzAyMiAzMTcuMzExMDA1IDc1Mi45OTc5ODYgMzIwLjI2NTAxNSA3NDIuNTczOTc1IFoiLz48cGF0aCBpZD0icGF0aDIiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0ibm9uZSIgZD0iTSAzODIuNDQwMDAyIDgwMC42NTgwMiBDIDM3MS41Mjg5OTIgNzkzLjM5NTAyIDM2MS45NjcwMSA3ODUuMzI4MDAzIDM1NS40OTg5OTMgNzcyLjc4MTAwNiBDIDQwMC45NjA5OTkgNzcyLjc4MTAwNiA0NDUuNjg3OTg4IDc3Mi43ODEwMDYgNDkwLjg1NTAxMSA3NzIuNzgxMDA2IEMgNDg5Ljc3MDk5NiA3NzcuMzQ5OTc2IDQ4Ny4xMDY5OTUgNzgwLjMzMTk3IDQ4NC41MTE5OTMgNzgzLjIyMTAwOCBDIDQ1Ny4xNTg5OTcgODEzLjY2Njk5MiA0MjEuMTEwOTkyIDgyMC4zMjcwMjYgMzg0LjUxOTk4OSA4MDEuNzgzMDIgQyAzODMuOTI1OTk1IDgwMS40ODE5OTUgMzgzLjMzODk4OSA4MDEuMTY0OTc4IDM4Mi40NDAwMDIgODAwLjY1ODAyIFoiLz48L2c+PHRleHQgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgeD0iMTQ5LjcyNjc5NyIgeT0iOTQ3IiBmb250LWZhbWlseT0iT3JiaXRyb24iIGZvbnQtc2l6ZT0iOTYiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmZGZhZmEiPkFsbCBIYWlsIC4gYWk8L3RleHQ+PC9zdmc+Cg==" alt="All Hail AI">
+      All Hail AI
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#types">The Framework</a></li>
+      <li><a href="index.html#platform">Platform</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="acceleration.html">The Acceleration</a></li>
+      <li><a href="team.html" class="active">Team</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="contact.html" class="nav-cta">Get in Touch</a>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-grid"></div>
+  <div class="container">
+    <p class="label page-hero-anim page-hero-anim-1">The Workforce</p>
+    <h1 class="page-hero-anim page-hero-anim-2">Human ingenuity.<br><em>Agentic scale.</em></h1>
+    <p class="page-hero-anim page-hero-anim-3">Our team of seasoned engineers and domain experts operates alongside a purpose-built AI workforce — together delivering the Type III capabilities that modern healthcare demands.</p>
+  </div>
+</section>
+
+<!-- AI EMPLOYEES -->
+<section id="ai-team">
+  <div class="container">
+    <div class="section-label-row reveal">
+      <p class="label">AI Workforce</p>
+    </div>
+
+    <div class="ai-grid">
+      <!-- Forge -->
+      <div class="ai-card reveal reveal-delay-1">
+        <div class="ai-avatar">
+          <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="8" width="56" height="56" rx="4" stroke="rgba(201,168,76,0.3)" stroke-width="0.8"/>
+            <rect x="16" y="16" width="40" height="40" rx="2" stroke="rgba(201,168,76,0.2)" stroke-width="0.6"/>
+            <!-- Circuit board aesthetic -->
+            <line x1="36" y1="8" x2="36" y2="16" stroke="#C9A84C" stroke-width="1.2"/>
+            <line x1="16" y1="36" x2="8" y2="36" stroke="#C9A84C" stroke-width="1.2"/>
+            <line x1="56" y1="36" x2="64" y2="36" stroke="#C9A84C" stroke-width="1.2"/>
+            <line x1="36" y1="56" x2="36" y2="64" stroke="#C9A84C" stroke-width="1.2"/>
+            <!-- Core processor -->
+            <rect x="26" y="26" width="20" height="20" rx="1" fill="rgba(201,168,76,0.08)" stroke="#C9A84C" stroke-width="1"/>
+            <!-- Pins top -->
+            <line x1="30" y1="22" x2="30" y2="26" stroke="rgba(201,168,76,0.6)" stroke-width="0.8"/>
+            <line x1="36" y1="22" x2="36" y2="26" stroke="rgba(201,168,76,0.6)" stroke-width="0.8"/>
+            <line x1="42" y1="22" x2="42" y2="26" stroke="rgba(201,168,76,0.6)" stroke-width="0.8"/>
+            <!-- Pins left -->
+            <line x1="22" y1="30" x2="26" y2="30" stroke="rgba(201,168,76,0.6)" stroke-width="0.8"/>
+            <line x1="22" y1="36" x2="26" y2="36" stroke="rgba(201,168,76,0.6)" stroke-width="0.8"/>
+            <line x1="22" y1="42" x2="26" y2="42" stroke="rgba(201,168,76,0.6)" stroke-width="0.8"/>
+            <!-- Pins right -->
+            <line x1="50" y1="30" x2="46" y2="30" stroke="rgba(201,168,76,0.6)" stroke-width="0.8"/>
+            <line x1="50" y1="36" x2="46" y2="36" stroke="rgba(201,168,76,0.6)" stroke-width="0.8"/>
+            <line x1="50" y1="42" x2="46" y2="42" stroke="rgba(201,168,76,0.6)" stroke-width="0.8"/>
+            <!-- Pins bottom -->
+            <line x1="30" y1="50" x2="30" y2="46" stroke="rgba(201,168,76,0.6)" stroke-width="0.8"/>
+            <line x1="36" y1="50" x2="36" y2="46" stroke="rgba(201,168,76,0.6)" stroke-width="0.8"/>
+            <line x1="42" y1="50" x2="42" y2="46" stroke="rgba(201,168,76,0.6)" stroke-width="0.8"/>
+            <!-- Inner detail -->
+            <circle cx="36" cy="36" r="4" fill="rgba(201,168,76,0.25)" stroke="rgba(201,168,76,0.7)" stroke-width="0.8"/>
+          </svg>
+        </div>
+        <h3>Forge</h3>
+        <span class="ai-role">Intelligence Amplification Engine</span>
+        <p>Forge is our proprietary AI intelligence layer that transforms how engineering teams operate. It continuously synthesizes knowledge from meeting transcripts, technical discussions, and engineering artifacts — surfacing structured, actionable insight directly into development pipelines at the moment it's needed.</p>
+        <p>Forge actively monitors the global threat landscape for vulnerabilities relevant to our clients' technology stacks, generating prioritized intelligence reports before issues become incidents. The result: engineering teams that move faster, with fewer blind spots, and a security posture that stays permanently ahead of the curve.</p>
+        <div class="ai-tags">
+          <span class="ai-tag highlight">Knowledge Synthesis</span>
+          <span class="ai-tag highlight">Dev Intelligence</span>
+          <span class="ai-tag">Threat Monitoring</span>
+          <span class="ai-tag">CVE Surveillance</span>
+          <span class="ai-tag">Transcript Analysis</span>
+        </div>
+      </div>
+
+      <!-- Machina -->
+      <div class="ai-card flagship reveal reveal-delay-2">
+        <div class="ai-avatar">
+          <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Hexagonal neural network aesthetic -->
+            <polygon points="36,4 62,20 62,52 36,68 10,52 10,20" stroke="rgba(201,168,76,0.4)" stroke-width="0.8" fill="none"/>
+            <polygon points="36,14 54,24 54,48 36,58 18,48 18,24" stroke="rgba(201,168,76,0.25)" stroke-width="0.6" fill="none"/>
+            <!-- Network nodes -->
+            <circle cx="36" cy="36" r="5" fill="rgba(201,168,76,0.3)" stroke="#C9A84C" stroke-width="1.2"/>
+            <circle cx="36" cy="18" r="3" fill="rgba(201,168,76,0.15)" stroke="rgba(201,168,76,0.6)" stroke-width="0.8"/>
+            <circle cx="36" cy="54" r="3" fill="rgba(201,168,76,0.15)" stroke="rgba(201,168,76,0.6)" stroke-width="0.8"/>
+            <circle cx="54" cy="27" r="3" fill="rgba(201,168,76,0.15)" stroke="rgba(201,168,76,0.6)" stroke-width="0.8"/>
+            <circle cx="18" cy="27" r="3" fill="rgba(201,168,76,0.15)" stroke="rgba(201,168,76,0.6)" stroke-width="0.8"/>
+            <circle cx="54" cy="45" r="3" fill="rgba(201,168,76,0.15)" stroke="rgba(201,168,76,0.6)" stroke-width="0.8"/>
+            <circle cx="18" cy="45" r="3" fill="rgba(201,168,76,0.15)" stroke="rgba(201,168,76,0.6)" stroke-width="0.8"/>
+            <!-- Connections -->
+            <line x1="36" y1="31" x2="36" y2="21" stroke="rgba(201,168,76,0.4)" stroke-width="0.8"/>
+            <line x1="36" y1="41" x2="36" y2="51" stroke="rgba(201,168,76,0.4)" stroke-width="0.8"/>
+            <line x1="40" y1="33" x2="51" y2="27" stroke="rgba(201,168,76,0.4)" stroke-width="0.8"/>
+            <line x1="32" y1="33" x2="21" y2="27" stroke="rgba(201,168,76,0.4)" stroke-width="0.8"/>
+            <line x1="40" y1="39" x2="51" y2="45" stroke="rgba(201,168,76,0.4)" stroke-width="0.8"/>
+            <line x1="32" y1="39" x2="21" y2="45" stroke="rgba(201,168,76,0.4)" stroke-width="0.8"/>
+          </svg>
+        </div>
+        <h3>Machina</h3>
+        <span class="ai-role">Flagship Agentic Platform · Type III Core</span>
+        <p>Machina is the operating system of a Type III healthcare organization. A fully integrated agentic platform delivering autonomous capability across every dimension of the care continuum — from first patient contact to clinical documentation to population health management.</p>
+        <p>Out of the box, Machina powers omnichannel communications, CRM, intelligent scheduling, agentic calling and messaging, autonomous agent workers, agentic manager-layer orchestration, evaluation frameworks, closed-loop workflow automation, and deep EMR integrations. It is not a tool — it is an intelligence infrastructure.</p>
+        <div class="ai-tags">
+          <span class="ai-tag highlight">Omnichannel Comms</span>
+          <span class="ai-tag highlight">Agentic Calling</span>
+          <span class="ai-tag highlight">EMR Integration</span>
+          <span class="ai-tag">CRM</span>
+          <span class="ai-tag">Scheduling</span>
+          <span class="ai-tag">Agent Workers</span>
+          <span class="ai-tag">Manager Agents</span>
+          <span class="ai-tag">Eval Frameworks</span>
+          <span class="ai-tag">Closed-Loop Workflows</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ai-grid-bottom">
+      <!-- Code Review Agent -->
+      <div class="ai-card reveal reveal-delay-1">
+        <div class="ai-avatar">
+          <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="14" width="52" height="44" rx="3" stroke="rgba(201,168,76,0.3)" stroke-width="0.8" fill="none"/>
+            <rect x="10" y="14" width="52" height="10" rx="3" fill="rgba(201,168,76,0.07)" stroke="rgba(201,168,76,0.3)" stroke-width="0.8"/>
+            <circle cx="18" cy="19" r="2" fill="rgba(201,168,76,0.5)"/>
+            <circle cx="26" cy="19" r="2" fill="rgba(201,168,76,0.2)"/>
+            <circle cx="34" cy="19" r="2" fill="rgba(201,168,76,0.2)"/>
+            <!-- Code lines -->
+            <line x1="20" y1="32" x2="40" y2="32" stroke="rgba(201,168,76,0.4)" stroke-width="1.2"/>
+            <line x1="20" y1="38" x2="52" y2="38" stroke="rgba(201,168,76,0.25)" stroke-width="1"/>
+            <line x1="24" y1="44" x2="44" y2="44" stroke="rgba(201,168,76,0.4)" stroke-width="1.2"/>
+            <line x1="24" y1="50" x2="36" y2="50" stroke="rgba(201,168,76,0.25)" stroke-width="1"/>
+            <!-- Checkmark -->
+            <circle cx="56" cy="50" r="8" fill="rgba(50,200,100,0.1)" stroke="rgba(50,200,100,0.5)" stroke-width="1"/>
+            <polyline points="52,50 55,53 60,47" stroke="rgba(50,200,100,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </div>
+        <h3>Code Review</h3>
+        <span class="ai-role">Autonomous PR Guardian</span>
+        <p>Every pull request is reviewed against a codified set of golden laws — architectural standards, security requirements, performance thresholds, and best practices that define what production-quality code looks like at All Hail AI.</p>
+        <p>Powered by Gemini's code review capabilities, this agent delivers multi-language analysis, semantic diff comprehension, and context-aware suggestions that go beyond linting — flagging logic errors, scalability risks, and compliance gaps before they reach production. It learns from approval patterns and evolves alongside the codebase.</p>
+        <div class="ai-tags">
+          <span class="ai-tag highlight">Golden Laws Enforcement</span>
+          <span class="ai-tag">Semantic Analysis</span>
+          <span class="ai-tag">Security Scanning</span>
+          <span class="ai-tag">Multi-Language</span>
+          <span class="ai-tag">Compliance</span>
+        </div>
+      </div>
+
+      <!-- Agentic IDEs -->
+      <div class="ai-card reveal reveal-delay-2">
+        <div class="ai-avatar">
+          <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="20" width="56" height="36" rx="3" stroke="rgba(201,168,76,0.3)" stroke-width="0.8"/>
+            <line x1="8" y1="30" x2="64" y2="30" stroke="rgba(201,168,76,0.2)" stroke-width="0.6"/>
+            <!-- Cursor blink -->
+            <rect x="16" y="38" width="2" height="10" fill="rgba(201,168,76,0.7)" rx="1"/>
+            <!-- Code fragments -->
+            <line x1="22" y1="40" x2="38" y2="40" stroke="rgba(201,168,76,0.35)" stroke-width="1.2"/>
+            <line x1="22" y1="45" x2="48" y2="45" stroke="rgba(201,168,76,0.2)" stroke-width="1"/>
+            <!-- Lightning bolt (agentic power) -->
+            <polygon points="54,24 50,31 53,31 49,39 56,30 52,30" fill="rgba(201,168,76,0.6)" stroke="rgba(201,168,76,0.8)" stroke-width="0.5"/>
+            <!-- Keyboard -->
+            <rect x="16" y="58" width="40" height="8" rx="2" stroke="rgba(201,168,76,0.2)" stroke-width="0.6"/>
+          </svg>
+        </div>
+        <h3>Agentic IDEs</h3>
+        <span class="ai-role">AI-Native Development Environments</span>
+        <p>Our engineers operate within a fully agentic development stack. Cursor brings AI-first code completion and refactoring intelligence into the editing experience. Anti-gravity extends agentic capabilities into complex multi-file orchestration. Claude Code brings Anthropic's reasoning directly into the command line for architectural problem-solving and autonomous coding tasks.</p>
+        <p>Together, these environments collapse the distance between intent and implementation — enabling our team to operate at a pace previously impossible for any engineering organization.</p>
+        <div class="ai-tags">
+          <span class="ai-tag highlight">Cursor</span>
+          <span class="ai-tag highlight">Anti-gravity</span>
+          <span class="ai-tag highlight">Claude Code</span>
+          <span class="ai-tag">Multi-file Orchestration</span>
+          <span class="ai-tag">Agentic Refactoring</span>
+        </div>
+      </div>
+
+      <!-- Data Agents -->
+      <div class="ai-card reveal reveal-delay-3">
+        <div class="ai-avatar">
+          <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Database cylinders -->
+            <ellipse cx="36" cy="18" rx="18" ry="6" stroke="rgba(201,168,76,0.4)" stroke-width="0.8" fill="rgba(201,168,76,0.06)"/>
+            <line x1="18" y1="18" x2="18" y2="36" stroke="rgba(201,168,76,0.4)" stroke-width="0.8"/>
+            <line x1="54" y1="18" x2="54" y2="36" stroke="rgba(201,168,76,0.4)" stroke-width="0.8"/>
+            <ellipse cx="36" cy="36" rx="18" ry="6" stroke="rgba(201,168,76,0.3)" stroke-width="0.8" fill="rgba(201,168,76,0.04)"/>
+            <line x1="18" y1="36" x2="18" y2="48" stroke="rgba(201,168,76,0.3)" stroke-width="0.8"/>
+            <line x1="54" y1="36" x2="54" y2="48" stroke="rgba(201,168,76,0.3)" stroke-width="0.8"/>
+            <ellipse cx="36" cy="48" rx="18" ry="6" stroke="rgba(201,168,76,0.2)" stroke-width="0.8" fill="rgba(201,168,76,0.03)"/>
+            <!-- Chart bars (analytics) -->
+            <rect x="26" y="55" width="4" height="10" fill="rgba(201,168,76,0.5)" rx="1"/>
+            <rect x="33" y="50" width="4" height="15" fill="rgba(201,168,76,0.7)" rx="1"/>
+            <rect x="40" y="57" width="4" height="8" fill="rgba(201,168,76,0.4)" rx="1"/>
+            <!-- AI pulse on top db -->
+            <circle cx="36" cy="18" r="3" fill="rgba(201,168,76,0.5)"/>
+          </svg>
+        </div>
+        <h3>Data Agents</h3>
+        <span class="ai-role">Snowflake-Powered Intelligence Workers</span>
+        <p>Built on Snowflake's native AI capabilities, our data agents operate as autonomous intelligence workers within the data layer. They continuously monitor population health trends, surface anomalies in clinical and operational data, and proactively notify business stakeholders before patterns become problems.</p>
+        <p>Beyond surveillance, these agents power agentic data exploration — enabling business users to query complex datasets through natural language, discover non-obvious correlations, and generate executive-ready insights without waiting for a data team sprint cycle.</p>
+        <div class="ai-tags">
+          <span class="ai-tag highlight">Snowflake AI</span>
+          <span class="ai-tag highlight">Trend Monitoring</span>
+          <span class="ai-tag">Agentic Exploration</span>
+          <span class="ai-tag">NL Querying</span>
+          <span class="ai-tag">Anomaly Detection</span>
+          <span class="ai-tag">Executive Reporting</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HUMAN TEAM -->
+<section id="human-team">
+  <div class="container">
+    <div class="section-label-row reveal">
+      <p class="label">Human Team</p>
+    </div>
+    <div class="human-grid">
+
+      <!-- Engineer 1 -->
+      <div class="human-card reveal reveal-delay-1">
+        <svg class="human-avatar" viewBox="0 0 64 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Faceless humanoid — geometric, abstract -->
+          <circle cx="32" cy="22" r="14" stroke="rgba(201,168,76,0.35)" stroke-width="1" fill="rgba(201,168,76,0.05)"/>
+          <!-- Subtle face suggestion — no features -->
+          <circle cx="32" cy="22" r="9" stroke="rgba(201,168,76,0.15)" stroke-width="0.6" fill="none"/>
+          <!-- Body -->
+          <path d="M16 46 Q16 38 32 36 Q48 38 48 46 L50 72 L14 72 Z" stroke="rgba(201,168,76,0.3)" stroke-width="0.8" fill="rgba(201,168,76,0.04)"/>
+          <!-- Collar detail -->
+          <path d="M26 36 L32 42 L38 36" stroke="rgba(201,168,76,0.25)" stroke-width="0.7" fill="none"/>
+          <!-- Shoulder nodes -->
+          <circle cx="16" cy="46" r="2" fill="rgba(201,168,76,0.2)" stroke="rgba(201,168,76,0.4)" stroke-width="0.6"/>
+          <circle cx="48" cy="46" r="2" fill="rgba(201,168,76,0.2)" stroke="rgba(201,168,76,0.4)" stroke-width="0.6"/>
+        </svg>
+        <h3>Engineer 01</h3>
+        <span class="human-num">Senior · Full Stack Agentic</span>
+        <ul class="skill-list">
+          <li>Full Stack Agentic Engineering</li>
+          <li>Data Engineering</li>
+          <li>Information Security</li>
+        </ul>
+      </div>
+
+      <!-- Engineer 2 -->
+      <div class="human-card reveal reveal-delay-2">
+        <svg class="human-avatar" viewBox="0 0 64 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="32" cy="22" r="14" stroke="rgba(201,168,76,0.35)" stroke-width="1" fill="rgba(201,168,76,0.05)"/>
+          <circle cx="32" cy="22" r="9" stroke="rgba(201,168,76,0.15)" stroke-width="0.6" fill="none"/>
+          <path d="M16 46 Q16 38 32 36 Q48 38 48 46 L50 72 L14 72 Z" stroke="rgba(201,168,76,0.3)" stroke-width="0.8" fill="rgba(201,168,76,0.04)"/>
+          <path d="M26 36 L32 42 L38 36" stroke="rgba(201,168,76,0.25)" stroke-width="0.7" fill="none"/>
+          <circle cx="16" cy="46" r="2" fill="rgba(201,168,76,0.2)" stroke="rgba(201,168,76,0.4)" stroke-width="0.6"/>
+          <circle cx="48" cy="46" r="2" fill="rgba(201,168,76,0.2)" stroke="rgba(201,168,76,0.4)" stroke-width="0.6"/>
+          <!-- Unique badge: diamond (product/design) -->
+          <polygon points="32,10 36,14 32,18 28,14" stroke="rgba(201,168,76,0.5)" stroke-width="0.7" fill="rgba(201,168,76,0.12)"/>
+        </svg>
+        <h3>Engineer 02</h3>
+        <span class="human-num">Senior · Product & Data Architecture</span>
+        <ul class="skill-list">
+          <li>Technical Product Design</li>
+          <li>Data Architecture & Engineering</li>
+          <li>Actuarial Analytics</li>
+          <li>Information Security</li>
+        </ul>
+      </div>
+
+      <!-- Engineer 3 -->
+      <div class="human-card reveal reveal-delay-3">
+        <svg class="human-avatar" viewBox="0 0 64 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="32" cy="22" r="14" stroke="rgba(201,168,76,0.35)" stroke-width="1" fill="rgba(201,168,76,0.05)"/>
+          <circle cx="32" cy="22" r="9" stroke="rgba(201,168,76,0.15)" stroke-width="0.6" fill="none"/>
+          <path d="M16 46 Q16 38 32 36 Q48 38 48 46 L50 72 L14 72 Z" stroke="rgba(201,168,76,0.3)" stroke-width="0.8" fill="rgba(201,168,76,0.04)"/>
+          <path d="M26 36 L32 42 L38 36" stroke="rgba(201,168,76,0.25)" stroke-width="0.7" fill="none"/>
+          <circle cx="16" cy="46" r="2" fill="rgba(201,168,76,0.2)" stroke="rgba(201,168,76,0.4)" stroke-width="0.6"/>
+          <circle cx="48" cy="46" r="2" fill="rgba(201,168,76,0.2)" stroke="rgba(201,168,76,0.4)" stroke-width="0.6"/>
+          <!-- Skull/hacker badge -->
+          <circle cx="32" cy="14" r="4" stroke="rgba(201,168,76,0.45)" stroke-width="0.7" fill="rgba(201,168,76,0.08)"/>
+          <line x1="30" y1="17" x2="30" y2="19" stroke="rgba(201,168,76,0.4)" stroke-width="0.8"/>
+          <line x1="34" y1="17" x2="34" y2="19" stroke="rgba(201,168,76,0.4)" stroke-width="0.8"/>
+        </svg>
+        <h3>Engineer 03</h3>
+        <span class="human-num">Senior · Agentic ML & Security</span>
+        <ul class="skill-list">
+          <li>Full Stack Agentic Engineering</li>
+          <li>Data Engineering</li>
+          <li>DevOps</li>
+          <li>Machine Learning</li>
+          <li>White Hat Hacker</li>
+        </ul>
+      </div>
+
+      <!-- Engineer 4 -->
+      <div class="human-card reveal reveal-delay-4">
+        <svg class="human-avatar" viewBox="0 0 64 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="32" cy="22" r="14" stroke="rgba(201,168,76,0.35)" stroke-width="1" fill="rgba(201,168,76,0.05)"/>
+          <circle cx="32" cy="22" r="9" stroke="rgba(201,168,76,0.15)" stroke-width="0.6" fill="none"/>
+          <path d="M16 46 Q16 38 32 36 Q48 38 48 46 L50 72 L14 72 Z" stroke="rgba(201,168,76,0.3)" stroke-width="0.8" fill="rgba(201,168,76,0.04)"/>
+          <path d="M26 36 L32 42 L38 36" stroke="rgba(201,168,76,0.25)" stroke-width="0.7" fill="none"/>
+          <circle cx="16" cy="46" r="2" fill="rgba(201,168,76,0.2)" stroke="rgba(201,168,76,0.4)" stroke-width="0.6"/>
+          <circle cx="48" cy="46" r="2" fill="rgba(201,168,76,0.2)" stroke="rgba(201,168,76,0.4)" stroke-width="0.6"/>
+        </svg>
+        <h3>Engineer 04</h3>
+        <span class="human-num">Mid · Full Stack & Data</span>
+        <ul class="skill-list">
+          <li>Full Stack Agentic Engineering</li>
+          <li>Data Engineering</li>
+        </ul>
+      </div>
+
+      <!-- Engineer 5 -->
+      <div class="human-card reveal reveal-delay-5">
+        <svg class="human-avatar" viewBox="0 0 64 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="32" cy="22" r="14" stroke="rgba(201,168,76,0.35)" stroke-width="1" fill="rgba(201,168,76,0.05)"/>
+          <circle cx="32" cy="22" r="9" stroke="rgba(201,168,76,0.15)" stroke-width="0.6" fill="none"/>
+          <path d="M16 46 Q16 38 32 36 Q48 38 48 46 L50 72 L14 72 Z" stroke="rgba(201,168,76,0.3)" stroke-width="0.8" fill="rgba(201,168,76,0.04)"/>
+          <path d="M26 36 L32 42 L38 36" stroke="rgba(201,168,76,0.25)" stroke-width="0.7" fill="none"/>
+          <circle cx="16" cy="46" r="2" fill="rgba(201,168,76,0.2)" stroke="rgba(201,168,76,0.4)" stroke-width="0.6"/>
+          <circle cx="48" cy="46" r="2" fill="rgba(201,168,76,0.2)" stroke="rgba(201,168,76,0.4)" stroke-width="0.6"/>
+          <!-- Cloud badge -->
+          <path d="M27,14 Q27,10 31,10 Q33,8 36,10 Q39,10 39,13 Q41,13 41,16 Q41,18 38,18 L27,18 Q24,18 24,15 Q24,12 27,14Z" stroke="rgba(201,168,76,0.45)" stroke-width="0.6" fill="rgba(201,168,76,0.08)"/>
+        </svg>
+        <h3>Engineer 05</h3>
+        <span class="human-num">Senior · Cloud & ML Infrastructure</span>
+        <ul class="skill-list">
+          <li>Full Stack Agentic Engineering</li>
+          <li>Data Engineering</li>
+          <li>DevOps</li>
+          <li>Machine Learning</li>
+          <li>Cloud Infrastructure</li>
+        </ul>
+      </div>
+
+      <!-- Engineer 6 (UX 1) -->
+      <div class="human-card reveal reveal-delay-6">
+        <svg class="human-avatar" viewBox="0 0 64 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="32" cy="22" r="14" stroke="rgba(201,168,76,0.35)" stroke-width="1" fill="rgba(201,168,76,0.05)"/>
+          <circle cx="32" cy="22" r="9" stroke="rgba(201,168,76,0.15)" stroke-width="0.6" fill="none"/>
+          <path d="M16 46 Q16 38 32 36 Q48 38 48 46 L50 72 L14 72 Z" stroke="rgba(201,168,76,0.3)" stroke-width="0.8" fill="rgba(201,168,76,0.04)"/>
+          <path d="M26 36 L32 42 L38 36" stroke="rgba(201,168,76,0.25)" stroke-width="0.7" fill="none"/>
+          <circle cx="16" cy="46" r="2" fill="rgba(201,168,76,0.2)" stroke="rgba(201,168,76,0.4)" stroke-width="0.6"/>
+          <circle cx="48" cy="46" r="2" fill="rgba(201,168,76,0.2)" stroke="rgba(201,168,76,0.4)" stroke-width="0.6"/>
+          <!-- Pen tool badge (UX/design) -->
+          <path d="M28,17 L32,13 L36,17 L34,20 L30,20 Z" stroke="rgba(201,168,76,0.5)" stroke-width="0.7" fill="rgba(201,168,76,0.1)"/>
+          <line x1="32" y1="20" x2="32" y2="24" stroke="rgba(201,168,76,0.4)" stroke-width="0.8"/>
+        </svg>
+        <h3>Engineer 06</h3>
+        <span class="human-num">Senior · UX & Full Stack</span>
+        <ul class="skill-list">
+          <li>UX Artistry</li>
+          <li>Full Stack Agentic Engineering</li>
+        </ul>
+      </div>
+
+      <!-- Engineer 7 (UX 2) -->
+      <div class="human-card reveal reveal-delay-7">
+        <svg class="human-avatar" viewBox="0 0 64 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="32" cy="22" r="14" stroke="rgba(201,168,76,0.35)" stroke-width="1" fill="rgba(201,168,76,0.05)"/>
+          <circle cx="32" cy="22" r="9" stroke="rgba(201,168,76,0.15)" stroke-width="0.6" fill="none"/>
+          <path d="M16 46 Q16 38 32 36 Q48 38 48 46 L50 72 L14 72 Z" stroke="rgba(201,168,76,0.3)" stroke-width="0.8" fill="rgba(201,168,76,0.04)"/>
+          <path d="M26 36 L32 42 L38 36" stroke="rgba(201,168,76,0.25)" stroke-width="0.7" fill="none"/>
+          <circle cx="16" cy="46" r="2" fill="rgba(201,168,76,0.2)" stroke="rgba(201,168,76,0.4)" stroke-width="0.6"/>
+          <circle cx="48" cy="46" r="2" fill="rgba(201,168,76,0.2)" stroke="rgba(201,168,76,0.4)" stroke-width="0.6"/>
+          <!-- Bezier curve badge (design) -->
+          <circle cx="28" cy="16" r="2" fill="none" stroke="rgba(201,168,76,0.5)" stroke-width="0.7"/>
+          <circle cx="36" cy="16" r="2" fill="none" stroke="rgba(201,168,76,0.5)" stroke-width="0.7"/>
+          <path d="M28,16 Q32,11 36,16" stroke="rgba(201,168,76,0.55)" stroke-width="0.8" fill="none"/>
+        </svg>
+        <h3>Engineer 07</h3>
+        <span class="human-num">Senior · UX & Full Stack</span>
+        <ul class="skill-list">
+          <li>UX Artistry</li>
+          <li>Full Stack Agentic Engineering</li>
+        </ul>
+      </div>
+
+      <!-- Engineer 8 (Cloud Arch) -->
+      <div class="human-card reveal reveal-delay-8">
+        <svg class="human-avatar" viewBox="0 0 64 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="32" cy="22" r="14" stroke="rgba(201,168,76,0.35)" stroke-width="1" fill="rgba(201,168,76,0.05)"/>
+          <circle cx="32" cy="22" r="9" stroke="rgba(201,168,76,0.15)" stroke-width="0.6" fill="none"/>
+          <path d="M16 46 Q16 38 32 36 Q48 38 48 46 L50 72 L14 72 Z" stroke="rgba(201,168,76,0.3)" stroke-width="0.8" fill="rgba(201,168,76,0.04)"/>
+          <path d="M26 36 L32 42 L38 36" stroke="rgba(201,168,76,0.25)" stroke-width="0.7" fill="none"/>
+          <circle cx="16" cy="46" r="2" fill="rgba(201,168,76,0.2)" stroke="rgba(201,168,76,0.4)" stroke-width="0.6"/>
+          <circle cx="48" cy="46" r="2" fill="rgba(201,168,76,0.2)" stroke="rgba(201,168,76,0.4)" stroke-width="0.6"/>
+          <!-- Network nodes badge (cloud/infra) -->
+          <circle cx="32" cy="13" r="2" fill="rgba(201,168,76,0.3)" stroke="rgba(201,168,76,0.6)" stroke-width="0.6"/>
+          <circle cx="27" cy="19" r="1.5" fill="rgba(201,168,76,0.2)" stroke="rgba(201,168,76,0.5)" stroke-width="0.6"/>
+          <circle cx="37" cy="19" r="1.5" fill="rgba(201,168,76,0.2)" stroke="rgba(201,168,76,0.5)" stroke-width="0.6"/>
+          <line x1="32" y1="13" x2="27" y2="19" stroke="rgba(201,168,76,0.4)" stroke-width="0.6"/>
+          <line x1="32" y1="13" x2="37" y2="19" stroke="rgba(201,168,76,0.4)" stroke-width="0.6"/>
+        </svg>
+        <h3>Engineer 08</h3>
+        <span class="human-num">Senior · Cloud Architecture & DevOps</span>
+        <ul class="skill-list">
+          <li>Cloud Architecture & Infrastructure</li>
+          <li>Development Operations</li>
+          <li>Networking</li>
+          <li>System Administration</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container footer-inner">
+    <div class="footer-logo">
+      <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCEtLSBHZW5lcmF0ZWQgYnkgUGl4ZWxtYXRvciBQcm8gMy43LjEgLS0+Cjxzdmcgd2lkdGg9Ijg0OCIgaGVpZ2h0PSI5OTIiIHZpZXdCb3g9IjAgMCA4NDggOTkyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogICAgPGcgaWQ9Ikdyb3VwIj4KICAgICAgICA8cGF0aCBpZD0iUGF0aCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSJub25lIiBkPSJNIDYzMC45ODYwMjMgNDcxLjkyMTAyMSBDIDYxOS4zOTMwMDUgNDg4LjI1MjAxNCA2MDYuMTAxOTkgNTAyLjc5OTAxMSA1OTQuNDQyOTkzIDUxOC42MTk5OTUgQyA1NzguNDkyOTgxIDU0MC4yNjU5OTEgNTY1LjkzNzAxMiA1NjMuNjE3OTgxIDU1OS41NDQ5ODMgNTg5LjkwODAyIEMgNTU2LjYzMDk4MSA2MDEuODkwOTkxIDU1Ni4xNDAwMTUgNjE0LjI4MTAwNiA1NTQuMzE4OTcgNjI2LjQ1NTAxNyBDIDU1MS45NzgwMjcgNjQyLjEwNDk4IDU0NS4zNTEwMTMgNjU1LjMzNjk3NSA1MzIuMTkwOTc5IDY2NC42NDA5OTEgQyA1MjkuMDkzOTk0IDY2Ni44MzA5OTQgNTI3LjkzNDAyMSA2NjkuMjExOTc1IDUyOC4wMzE5ODIgNjcyLjkyNDk4OCBDIDUyOC4yNjUwMTUgNjgxLjc1MjAxNCA1MjguMTcxOTk3IDY4Ny40NzQ5NzYgNTI4LjExMiA2OTYuMzA3MDA3IEMgNTI4LjAzOTk3OCA3MDYuOTY2OTggNTIyLjg3NSA3MDUuNzgwMDI5IDUxMi4zMTcwMTcgNzA2Ljc0Nzk4NiBDIDQ3My4wMzM5OTcgNzEwLjM0OTk3NiA0MzMuOTU5OTkxIDcxMy43MjgwMjcgMzk0LjY0ODk4NyA3MTcuMTA2MDE4IEMgMzc2Ljc0NjAwMiA3MTguNjQzOTgyIDM1OC45MzMwMTQgNzIwLjA5MTk4IDM0MS4wNzUwMTIgNzIyLjE1Njk4MiBDIDMzNy4xMDk5ODUgNzIyLjYxNjAyOCAzMzMuMTA4MDAyIDcyMi4wOTMwMTggMzI5LjE3NDAxMSA3MjAuODU2MDE4IEMgMzIyLjg5MTk5OCA3MTguODgwMDA1IDMxOC44OTE5OTggNzExLjYwNzk3MSAzMTguODcyMDA5IDcwNC43MzEwMTggQyAzMTguODI1MDEyIDY4OC4zOTg5ODcgMzE4Ljg2MDk5MiA2ODguNDgyOTcxIDMxOC44NjA5OTIgNjcyLjE1MDAyNCBDIDMxOC44NjIgNjY5LjgyMDk4NCAzMTkuMDc5OTg3IDY2Ny40ODYwMjMgMzE2LjYyMzk5MyA2NjUuOTYwOTk5IEMgMjk5Ljc4OTAwMSA2NTUuNTA3OTk2IDI5My4zNTAwMDYgNjM5LjM1MTk5IDI5MS43MTM5ODkgNjIwLjUzMDAyOSBDIDI4OC4yMDk5OTEgNTgwLjIxOTk3MSAyNzMuOTI0OTg4IDU0NC40Mzc5ODggMjQ4LjA1MDk5NSA1MTMuMDQzMDMgQyAyMzMuODgwOTk3IDQ5NS44NDg5OTkgMjE5Ljk1MzAwMyA0NzguMzQ5OTc2IDIwNy44Mjg5OTUgNDU5LjU5MDAyNyBDIDE5NC44NDUwMDEgNDM5LjQ5OTAyMyAxODQuNzc2MDAxIDQxNy45ODYwMjMgMTc3LjUzMzAwNSAzOTUuMTQ2OTczIEMgMTY4LjA4OTAwNSAzNjUuMzY5OTk1IDE2My4xODQ5OTggMzM0Ljg2NzAwNCAxNjQuMDgwMDAyIDMwMy42NzE5OTcgQyAxNjUuMDU3MDA3IDI2OS42MjU5NzcgMTcyLjA0ODAwNCAyMzYuNzQzMDQyIDE4NC42NjkwMDYgMjA0Ljk2NzA0MSBDIDE5NS43OTQwMDYgMTc2Ljk1NzAzMSAyMTEuMDQ0MDA2IDE1MS41NTkwMjEgMjMwLjMwNzAwNyAxMjguNTI4MDE1IEMgMjQ3LjA5Njk4NSAxMDguNDU1MDE3IDI2Ni43MjE5ODUgOTEuNTU3MDA3IDI4OC43OTAwMDkgNzcuNDcxMDA4IEMgMzIwLjMzNzAwNiA1Ny4zMzU5OTkgMzU0LjcxNjAwMyA0NC42NDU5OTYgMzkxLjc4Njk4NyA0MC4zNDQ5NzEgQyA0NDAuOTk3MDA5IDM0LjYzNDAzMyA0ODguMzgyOTk2IDQxLjMwNDk5MyA1MzMuMTY2OTkyIDYzLjc1Mjk5MSBDIDU3NC45MDM5OTIgODQuNjc0MDExIDYwOC44NjcwMDQgMTE0LjE0NTk5NiA2MzQuODc0MDIzIDE1Mi45Njk5NzEgQyA2NTIuMDk4OTk5IDE3OC42ODQwMjEgNjY0LjY5Nzk5OCAyMDYuNDY4OTk0IDY3Mi44OTMwMDUgMjM2LjE4Mzk2IEMgNjgyLjY1MDAyNCAyNzEuNTYyMDEyIDY4NS43NjcwMjkgMzA3LjY0NTk5NiA2ODAuOTU1MDE3IDM0NC4wOTIwNDEgQyA2NzcuNTI2MDAxIDM3MC4wNjYwNCA2NzAuOTY2OTggMzk1LjI4NjAxMSA2NjAuNjM3MDI0IDQxOS41NDE5OTIgQyA2NTIuNzQ3OTg2IDQzOC4wNjYwNCA2NDIuMzY5MDE5IDQ1NS4wMzY5ODcgNjMwLjk4NjAyMyA0NzEuOTIxMDIxIFoiLz48L2c+PHRleHQgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgeD0iMTQ5LjcyNjc5NyIgeT0iOTQ3IiBmb250LWZhbWlseT0iT3JiaXRyb24iIGZvbnQtc2l6ZT0iOTYiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmZGZhZmEiPkFsbCBIYWlsIC4gYWk8L3RleHQ+PC9zdmc+Cg==" alt="All Hail AI">
+      All Hail AI
+    </div>
+    <p class="footer-copy">© 2026 All Hail AI · allhail.ai</p>
+    <div class="footer-links">
+      <a href="contact.html">Contact</a>
+      <a href="#">Privacy</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.06, rootMargin: '0px 0px -30px 0px' });
+revealEls.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
