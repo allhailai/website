@@ -66,6 +66,12 @@ nav {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
+nav.nav-open {
+  z-index: 999999;
+}
+html.nav-menu-open body {
+  display: block !important;
+}
 .nav-inner { display: flex; align-items: center; justify-content: space-between; }
 .nav-logo {
   display: flex; align-items: center; gap: 0.75rem;
@@ -81,6 +87,31 @@ nav {
   padding: 0.55rem 1.4rem; border-radius: 2px; transition: background 0.2s, color 0.2s;
 }
 .nav-cta:hover { background: var(--gold); color: var(--black); }
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-shrink: 0;
+}
+.nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: none;
+  border-radius: 2px;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav-toggle:hover { color: var(--gold); }
+.nav-toggle svg { display: block; }
+.nav-toggle .icon-close { display: none; }
+nav.nav-open .nav-toggle .icon-menu { display: none; }
+nav.nav-open .nav-toggle .icon-close { display: block; }
 
 /* ── PAGE HERO ── */
 .page-hero {
@@ -637,7 +668,46 @@ footer { padding: 3rem 0; border-top: 0.5px solid var(--border-dim); }
   .tl-right { grid-column: 2; }
   .era-header { grid-column: 1 / 3; }
   .horizon-concepts { grid-template-columns: 1fr; }
-  .nav-links { display: none; }
+  .nav-toggle { display: flex; }
+  nav.nav-open .nav-logo,
+  nav.nav-open .nav-actions {
+    position: relative;
+    z-index: 5;
+  }
+  .nav-links {
+    display: none;
+    position: fixed;
+    top: 4.75rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0;
+    margin: 0;
+    padding: 1.25rem 1.5rem 2rem;
+    overflow-y: auto;
+    z-index: 999998;
+    background: rgba(10, 10, 10, 0.52);
+    backdrop-filter: blur(22px) saturate(1.12);
+    -webkit-backdrop-filter: blur(22px) saturate(1.12);
+    border-top: 0.5px solid var(--border-dim);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    list-style: none;
+    font-size: 0.88rem;
+    letter-spacing: 0.08em;
+  }
+  .nav-links li { border-bottom: 0.5px solid var(--border-dim); }
+  .nav-links li:last-child { border-bottom: none; }
+  .nav-links a {
+    display: block;
+    padding: 1.05rem 0.25rem;
+    color: var(--text);
+  }
+  .nav-links a:hover,
+  .nav-links a.active { color: var(--gold); }
+  html.nav-menu-open .nav-links { display: flex; }
   .footer-inner { flex-direction: column; gap: 1.5rem; text-align: center; }
   .footer-links { justify-content: center; }
   .velocity-marker { display: none; }
@@ -648,13 +718,13 @@ footer { padding: 3rem 0; border-top: 0.5px solid var(--border-dim); }
 <body>
 
 <!-- NAV -->
-<nav>
+<nav id="main-nav">
   <div class="container nav-inner">
     <a href="index.html" class="nav-logo">
       <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCEtLSBHZW5lcmF0ZWQgYnkgUGl4ZWxtYXRvciBQcm8gMy43LjEgLS0+Cjxzdmcgd2lkdGg9Ijg0OCIgaGVpZ2h0PSI5OTIiIHZpZXdCb3g9IjAgMCA4NDggOTkyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogICAgPGcgaWQ9Ikdyb3VwIj4KICAgICAgICA8cGF0aCBpZD0iUGF0aCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSJub25lIiBkPSJNIDYzMC45ODYwMjMgNDcxLjkyMTAyMSBDIDYxOS4zOTMwMDUgNDg4LjI1MjAxNCA2MDYuMTAxOTkgNTAyLjc5OTAxMSA1OTQuNDQyOTkzIDUxOC42MTk5OTUgQyA1NzguNDkyOTgxIDU0MC4yNjU5OTEgNTY1LjkzNzAxMiA1NjMuNjE3OTgxIDU1OS41NDQ5ODMgNTg5LjkwODAyIEMgNTU2LjYzMDk4MSA2MDEuODkwOTkxIDU1Ni4xNDAwMTUgNjE0LjI4MTAwNiA1NTQuMzE4OTcgNjI2LjQ1NTAxNyBDIDU1MS45NzgwMjcgNjQyLjEwNDk4IDU0NS4zNTEwMTMgNjU1LjMzNjk3NSA1MzIuMTkwOTc5IDY2NC42NDA5OTEgQyA1MjkuMDkzOTk0IDY2Ni44MzA5OTQgNTI3LjkzNDAyMSA2NjkuMjExOTc1IDUyOC4wMzE5ODIgNjcyLjkyNDk4OCBDIDUyOC4yNjUwMTUgNjgxLjc1MjAxNCA1MjguMTcxOTk3IDY4Ny40NzQ5NzYgNTI4LjExMiA2OTYuMzA3MDA3IEMgNTI4LjAzOTk3OCA3MDYuOTY2OTggNTIyLjg3NSA3MDUuNzgwMDI5IDUxMi4zMTcwMTcgNzA2Ljc0Nzk4NiBDIDQ3My4wMzM5OTcgNzEwLjM0OTk3NiA0MzMuOTU5OTkxIDcxMy43MjgwMjcgMzk0LjY0ODk4NyA3MTcuMTA2MDE4IEMgMzc2Ljc0NjAwMiA3MTguNjQzOTgyIDM1OC45MzMwMTQgNzIwLjA5MTk4IDM0MS4wNzUwMTIgNzIyLjE1Njk4MiBDIDMzNy4xMDk5ODUgNzIyLjYxNjAyOCAzMzMuMTA4MDAyIDcyMi4wOTMwMTggMzI5LjE3NDAxMSA3MjAuODU2MDE4IEMgMzIyLjg5MTk5OCA3MTguODgwMDA1IDMxOC44OTE5OTggNzExLjYwNzk3MSAzMTguODcyMDA5IDcwNC43MzEwMTggQyAzMTguODI1MDEyIDY4OC4zOTg5ODcgMzE4Ljg2MDk5MiA2ODguNDgyOTcxIDMxOC44NjA5OTIgNjcyLjE1MDAyNCBDIDMxOC44NjIgNjY5LjgyMDk4NCAzMTkuMDc5OTg3IDY2Ny40ODYwMjMgMzE2LjYyMzk5MyA2NjUuOTYwOTk5IEMgMjk5Ljc4OTAwMSA2NTUuNTA3OTk2IDI5My4zNTAwMDYgNjM5LjM1MTk5IDI5MS43MTM5ODkgNjIwLjUzMDAyOSBDIDI4OC4yMDk5OTEgNTgwLjIxOTk3MSAyNzMuOTI0OTg4IDU0NC40Mzc5ODggMjQ4LjA1MDk5NSA1MTMuMDQzMDMgQyAyMzMuODgwOTk3IDQ5NS44NDg5OTkgMjE5Ljk1MzAwMyA0NzguMzQ5OTc2IDIwNy44Mjg5OTUgNDU5LjU5MDAyNyBDIDE5NC44NDUwMDEgNDM5LjQ5OTAyMyAxODQuNzc2MDAxIDQxNy45ODYwMjMgMTc3LjUzMzAwNSAzOTUuMTQ2OTczIEMgMTY4LjA4OTAwNSAzNjUuMzY5OTk1IDE2My4xODQ5OTggMzM0Ljg2NzAwNCAxNjQuMDgwMDAyIDMwMy42NzE5OTcgQyAxNjUuMDU3MDA3IDI2OS42MjU5NzcgMTcyLjA0ODAwNCAyMzYuNzQzMDQyIDE4NC42NjkwMDYgMjA0Ljk2NzA0MSBDIDE5NS43OTQwMDYgMTc2Ljk1NzAzMSAyMTEuMDQ0MDA2IDE1MS41NTkwMjEgMjMwLjMwNzAwNyAxMjguNTI4MDE1IEMgMjQ3LjA5Njk4NSAxMDguNDU1MDE3IDI2Ni43MjE5ODUgOTEuNTU3MDA3IDI4OC43OTAwMDkgNzcuNDcxMDA4IEMgMzIwLjMzNzAwNiA1Ny4zMzU5OTkgMzU0LjcxNjAwMyA0NC42NDU5OTYgMzkxLjc4Njk4NyA0MC4zNDQ5NzEgQyA0NDAuOTk3MDA5IDM0LjYzNDAzMyA0ODguMzgyOTk2IDQxLjMwNDk5MyA1MzMuMTY2OTkyIDYzLjc1Mjk5MSBDIDU3NC45MDM5OTIgODQuNjc0MDExIDYwOC44NjcwMDQgMTE0LjE0NTk5NiA2MzQuODc0MDIzIDE1Mi45Njk5NzEgQyA2NTIuMDk4OTk5IDE3OC42ODQwMjEgNjY0LjY5Nzk5OCAyMDYuNDY4OTk0IDY3Mi44OTMwMDUgMjM2LjE4Mzk2IEMgNjgyLjY1MDAyNCAyNzEuNTYyMDEyIDY4NS43NjcwMjkgMzA3LjY0NTk5NiA2ODAuOTU1MDE3IDM0NC4wOTIwNDEgQyA2NzcuNTI2MDAxIDM3MC4wNjYwNCA2NzAuOTY2OTggMzk1LjI4NjAxMSA2NjAuNjM3MDI0IDQxOS41NDE5OTIgQyA2NTIuNzQ3OTg2IDQzOC4wNjYwNCA2NDIuMzY5MDE5IDQ1NS4wMzY5ODcgNjMwLjk4NjAyMyA0NzEuOTIxMDIxIFoiLz48L2c+PHRleHQgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgeD0iMTQ5LjcyNjc5NyIgeT0iOTQ3IiBmb250LWZhbWlseT0iT3JiaXRyb24iIGZvbnQtc2l6ZT0iOTYiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmZGZhZmEiPkFsbCBIYWlsIC4gYWk8L3RleHQ+PC9zdmc+Cg==" alt="All Hail AI">
       All Hail AI
     </a>
-    <ul class="nav-links">
+    <ul class="nav-links" id="nav-menu">
       <li><a href="index.html#types">The Framework</a></li>
       <li><a href="index.html#platform">Platform</a></li>
       <li><a href="index.html#about">About</a></li>
@@ -662,7 +732,13 @@ footer { padding: 3rem 0; border-top: 0.5px solid var(--border-dim); }
       <li><a href="team.html">Team</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
-    <a href="contact.html" class="nav-cta">Get in Touch</a>
+    <div class="nav-actions">
+      <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
+        <svg class="icon-menu" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+        <svg class="icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+      </button>
+      <a href="contact.html" class="nav-cta">Get in Touch</a>
+    </div>
   </div>
 </nav>
 
@@ -1207,6 +1283,52 @@ footer { padding: 3rem 0; border-top: 0.5px solid var(--border-dim); }
 </footer>
 
 <script>
+(function () {
+  const nav = document.getElementById('main-nav');
+  const toggle = document.getElementById('nav-toggle');
+  const menu = document.getElementById('nav-menu');
+  if (!nav || !toggle || !menu) return;
+  let scrollLockY = 0;
+  const menuParent = menu.parentNode;
+  const menuNextSibling = menu.nextSibling;
+  function setOpen(open) {
+    document.documentElement.classList.toggle('nav-menu-open', open);
+    nav.classList.toggle('nav-open', open);
+    toggle.setAttribute('aria-expanded', open);
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    if (open) {
+      document.body.appendChild(menu);
+      scrollLockY = window.scrollY;
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollLockY}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      document.body.style.width = '100%';
+    } else {
+      menuParent.insertBefore(menu, menuNextSibling);
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      document.body.style.width = '';
+      window.scrollTo(0, scrollLockY);
+    }
+  }
+  toggle.addEventListener('click', () => {
+    setOpen(!nav.classList.contains('nav-open'));
+  });
+  menu.querySelectorAll('a').forEach((a) => {
+    a.addEventListener('click', () => setOpen(false));
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setOpen(false);
+  });
+})();
+
 // Scroll reveal
 const revealEls = document.querySelectorAll('.reveal-tl');
 const revealObs = new IntersectionObserver((entries) => {
